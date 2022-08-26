@@ -1,5 +1,28 @@
+interface inputs {
+  weightKg: number;
+  heightCm: number;
+}
+
+const parseArguments = (args: Array<string>): inputs => {
+  if (args.length < 4) throw new Error("Not enough arguments.");
+  if (args.length > 4) throw new Error("Too many arguments.");
+
+  const weightKg: number = Number(args[2]);
+  const heightCm: number = Number(args[3]);
+
+  if (isNaN(weightKg) || isNaN(heightCm)) {
+    throw new Error("Arguments must be numbers.");
+  }
+
+  return { weightKg, heightCm };
+};
+
 const calculateBmi = (weightKg: number, heightCm: number): string => {
   const bmi = weightKg / (heightCm / 100) ** 2;
+
+  if (!isFinite(bmi)) {
+    throw new Error("BMI can't be calculated for height of 0cm.");
+  }
 
   if (bmi < 16) {
     return "Underweight (Severe thinness)";
@@ -20,4 +43,20 @@ const calculateBmi = (weightKg: number, heightCm: number): string => {
   }
 };
 
-console.log(calculateBmi(74, 180));
+try {
+  const { weightKg, heightCm } = parseArguments(process.argv);
+  console.log(
+    `${calculateBmi(
+      weightKg,
+      heightCm
+    )} BMI for weight of ${weightKg}kg and height of ${heightCm}cm.`
+  );
+} catch (error: unknown) {
+  let errorMessage = "Something went wrong.";
+
+  if (error instanceof Error) {
+    errorMessage += ` Error: ${error.message}`;
+  }
+
+  console.log(errorMessage);
+}
