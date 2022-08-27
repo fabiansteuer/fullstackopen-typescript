@@ -1,22 +1,3 @@
-interface bmiInputs {
-  weightKg: number;
-  heightCm: number;
-}
-
-const parseBmiArguments = (args: Array<string>): bmiInputs => {
-  if (args.length < 4) throw new Error("Not enough arguments.");
-  if (args.length > 4) throw new Error("Too many arguments.");
-
-  const weightKg: number = Number(args[2]);
-  const heightCm: number = Number(args[3]);
-
-  if (isNaN(weightKg) || isNaN(heightCm)) {
-    throw new Error("Arguments must be numbers.");
-  }
-
-  return { weightKg, heightCm };
-};
-
 const calculateBmi = (weightKg: number, heightCm: number): string => {
   const bmi = weightKg / (heightCm / 100) ** 2;
 
@@ -43,20 +24,43 @@ const calculateBmi = (weightKg: number, heightCm: number): string => {
   }
 };
 
-try {
-  const { weightKg, heightCm } = parseBmiArguments(process.argv);
-  console.log(
-    `${calculateBmi(
-      weightKg,
-      heightCm
-    )} BMI for weight of ${weightKg}kg and height of ${heightCm}cm.`
-  );
-} catch (error: unknown) {
-  let errorMessage = "Something went wrong.";
+export default calculateBmi;
 
-  if (error instanceof Error) {
-    errorMessage += ` Error: ${error.message}`;
-  }
+// Command line code
 
-  console.log(errorMessage);
-}
+// interface bmiInputs {
+//   weightKg: number;
+//   heightCm: number;
+// }
+//
+// const parseBmiArguments = (args: Array<string>): bmiInputs => {
+//   if (args.length < 4) throw new Error("Not enough arguments.");
+//   if (args.length > 4) throw new Error("Too many arguments.");
+
+//   const weightKg: number = Number(args[2]);
+//   const heightCm: number = Number(args[3]);
+
+//   if (isNaN(weightKg) || isNaN(heightCm)) {
+//     throw new Error("Arguments must be numbers.");
+//   }
+
+//   return { weightKg, heightCm };
+// };
+
+// try {
+//   const { weightKg, heightCm } = parseBmiArguments(process.argv);
+//   console.log(
+//     `${calculateBmi(
+//       weightKg,
+//       heightCm
+//     )} BMI for weight of ${weightKg}kg and height of ${heightCm}cm.`
+//   );
+// } catch (error: unknown) {
+//   let errorMessage = "Something went wrong.";
+
+//   if (error instanceof Error) {
+//     errorMessage += ` Error: ${error.message}`;
+//   }
+
+//   console.log(errorMessage);
+// }
