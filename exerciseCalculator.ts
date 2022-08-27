@@ -21,8 +21,6 @@ const parseExerciseArguments = (args: Array<string>): exerciseInputs => {
   const target = Number(targetString);
   const exercises = exerciseStrings.map(Number);
 
-  console.log(target, "-", exercises);
-
   if (isNaN(target) || exercises.includes(NaN)) {
     throw new Error("Arguments must be numbers.");
   }
@@ -74,8 +72,7 @@ const calculateExercises = (
 
 try {
   const { target, exercises } = parseExerciseArguments(process.argv);
-  console.log("target", target);
-  console.log("exercises", exercises);
+  console.log(calculateExercises(exercises, target));
 } catch (error: unknown) {
   let errorMessage = "Something went wrong.";
 
