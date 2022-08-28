@@ -1,4 +1,4 @@
-interface exerciseInputs {
+export interface exerciseInputs {
   target: number;
   exercises: Array<number>;
 }
@@ -16,7 +16,7 @@ interface exerciseResult {
 const parseExerciseArguments = (args: Array<string>): exerciseInputs => {
   if (args.length < 4) throw new Error("Not enough arguments.");
 
-  let [, , targetString, ...exerciseStrings] = args;
+  const [, , targetString, ...exerciseStrings] = args;
 
   const target = Number(targetString);
   const exercises = exerciseStrings.map(Number);
@@ -69,6 +69,8 @@ const calculateExercises = (
     ratingDescription,
   };
 };
+
+export default calculateExercises;
 
 try {
   const { target, exercises } = parseExerciseArguments(process.argv);
