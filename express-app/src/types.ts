@@ -12,3 +12,5 @@ export interface Patient {
   gender: "male" | "female";
   occupation: string;
 }
+
+export type PatientWithoutSsn = Omit<Patient, "ssn">;
