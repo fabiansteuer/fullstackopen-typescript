@@ -1,5 +1,6 @@
 import express from "express";
 import patientsService from "../services/patientsService";
+import { toNewPatient } from "../utils";
 
 const router = express.Router();
 
@@ -7,8 +8,23 @@ router.get("/", (_req, res) => {
   return res.send(patientsService.list());
 });
 
-router.post("/", (_req, res) => {
-  res.send("Saving a patient!");
+router.post("/", (req, res) => {
+  try {
+    const newPatient = toNewPatient(req.body);
+    const createdPatient = patientsService.create(newPatient);
+
+    return res.send(createdPatient);
+  } catch (error: unknown) {
+    let errorMessage = "";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    } else {
+      errorMessage = "Unknown error.";
+    }
+
+    return res.status(400).send({ error: errorMessage });
+  }
 });
 
 export default router;
