@@ -7,10 +7,13 @@ interface Props {
 
 const Total: FunctionComponent<Props> = ({ courseParts }: Props) => {
   return (
-    <p>
-      Number of exercises{" "}
-      {courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
-    </p>
+    <>
+      <h3>Total</h3>
+      <p>
+        Number of exercises:{" "}
+        {courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
+      </p>
+    </>
   );
   Total;
 };

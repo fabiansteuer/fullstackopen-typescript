@@ -4,9 +4,12 @@ interface CoursePartBase {
   type: string;
 }
 
-interface CourseNormalPart extends CoursePartBase {
-  type: "normal";
+interface CoursePartDescriptionBase extends CoursePartBase {
   description: string;
+}
+
+interface CourseNormalPart extends CoursePartDescriptionBase {
+  type: "normal";
 }
 
 interface CourseProjectPart extends CoursePartBase {
@@ -14,13 +17,18 @@ interface CourseProjectPart extends CoursePartBase {
   groupProjectCount: number;
 }
 
-interface CourseSubmissionPart extends CoursePartBase {
+interface CourseSubmissionPart extends CoursePartDescriptionBase {
   type: "submission";
-  description: string;
   exerciseSubmissionLink: string;
+}
+
+interface CourseSpecialPart extends CoursePartDescriptionBase {
+  type: "special";
+  requirements: Array<string>;
 }
 
 export type CoursePart =
   | CourseNormalPart
   | CourseProjectPart
-  | CourseSubmissionPart;
+  | CourseSubmissionPart
+  | CourseSpecialPart;
