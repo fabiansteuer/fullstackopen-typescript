@@ -1,6 +1,6 @@
 export interface exerciseInputs {
   target: number;
-  exercises: Array<number>;
+  exercises: number[];
 }
 
 interface exerciseResult {
@@ -13,7 +13,7 @@ interface exerciseResult {
   average: number;
 }
 
-const parseExerciseArguments = (args: Array<string>): exerciseInputs => {
+const parseExerciseArguments = (args: string[]): exerciseInputs => {
   if (args.length < 4) throw new Error("Not enough arguments.");
 
   const [, , targetString, ...exerciseStrings] = args;
@@ -29,7 +29,7 @@ const parseExerciseArguments = (args: Array<string>): exerciseInputs => {
 };
 
 const calculateExercises = (
-  exercises: Array<number>,
+  exercises: number[],
   target: number
 ): exerciseResult => {
   const periodLength = exercises.length;

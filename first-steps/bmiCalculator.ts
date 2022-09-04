@@ -33,7 +33,7 @@ export default calculateBmi;
 //   heightCm: number;
 // }
 //
-// const parseBmiArguments = (args: Array<string>): bmiInputs => {
+// const parseBmiArguments = (args: string[]): bmiInputs => {
 //   if (args.length < 4) throw new Error("Not enough arguments.");
 //   if (args.length > 4) throw new Error("Too many arguments.");
 

@@ -3,7 +3,7 @@ import patients from "../data/patients";
 import { PatientWithoutSsn, PatientWithoutId } from "../types";
 import { v1 as uuid } from "uuid";
 
-const list = (): Array<PatientWithoutSsn> => {
+const list = (): PatientWithoutSsn[] => {
   const patientsWithoutSsn = patients.map((patient) => {
     return { ...patient, ssn: undefined };
   });

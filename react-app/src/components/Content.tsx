@@ -51,7 +51,7 @@ const Part: FunctionComponent<PartProps> = ({ coursePart }) => {
 };
 
 interface ContentProps {
-  courseParts: Array<CoursePart>;
+  courseParts: CoursePart[];
 }
 
 const Content: FunctionComponent<ContentProps> = ({ courseParts }) => {

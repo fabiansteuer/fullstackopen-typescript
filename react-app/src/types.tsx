@@ -24,7 +24,7 @@ interface CourseSubmissionPart extends CoursePartDescriptionBase {
 
 interface CourseSpecialPart extends CoursePartDescriptionBase {
   type: "special";
-  requirements: Array<string>;
+  requirements: string[];
 }
 
 export type CoursePart =

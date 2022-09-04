@@ -2,7 +2,7 @@ import { CoursePart } from "../types";
 import { FunctionComponent } from "react";
 
 interface Props {
-  courseParts: Array<CoursePart>;
+  courseParts: CoursePart[];
 }
 
 const Total: FunctionComponent<Props> = ({ courseParts }: Props) => {
