@@ -11,8 +11,13 @@ const list = (): PatientWithoutSsn[] => {
   return patientsWithoutSsn;
 };
 
+const retrieve = (patientId: string): Patient | undefined => {
+  const patient = patients.find((patient) => patient.id === patientId);
+  return patient;
+};
+
 const create = (newPatientWithoutId: PatientWithoutId): Patient => {
-  const newPatient = { id: uuid(), ...newPatientWithoutId };
+  const newPatient = { id: uuid(), ...newPatientWithoutId, entries: [] };
   patients.push(newPatient);
   return newPatient;
 };
@@ -20,4 +25,5 @@ const create = (newPatientWithoutId: PatientWithoutId): Patient => {
 export default {
   list,
   create,
+  retrieve,
 };

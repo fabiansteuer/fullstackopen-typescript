@@ -49,6 +49,10 @@ const parseOccupation = (occupation: unknown): string => {
   return occupation;
 };
 
+const parseEntries = (): [] => {
+  return [];
+};
+
 type Fields = {
   name: unknown;
   dateOfBirth: unknown;
@@ -70,6 +74,7 @@ export const toNewPatient = ({
     ssn: parseSsn(ssn),
     gender: parseGender(gender),
     occupation: parseOccupation(occupation),
+    entries: parseEntries(),
   };
 
   return newPatient;

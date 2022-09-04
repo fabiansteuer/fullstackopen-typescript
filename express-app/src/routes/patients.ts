@@ -4,6 +4,11 @@ import { toNewPatient } from "../utils";
 
 const router = express.Router();
 
+router.get("/:id", (req, res) => {
+  const patient = patientsService.retrieve(req.params.id);
+  return res.send(patient);
+});
+
 router.get("/", (_req, res) => {
   return res.send(patientsService.list());
 });
