@@ -1,40 +1,39 @@
-// import React from "react";
-// import axios from "axios";
+import { useEffect } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Box, Typography } from "@material-ui/core";
 import MaleIcon from "@mui/icons-material/Male";
 import FemaleIcon from "@mui/icons-material/Female";
 import TransgenderIcon from "@mui/icons-material/Transgender";
 
-// import { apiBaseUrl } from "../constants";
-// import { Patient } from "../types";
-import { useStateValue } from "../state";
+import { apiBaseUrl } from "../constants";
 import { Patient } from "../types";
+import { useStateValue } from "../state";
 
 const PatientDetailPage = () => {
   const { id } = useParams<{ id: string }>();
 
-  const [{ patients }] = useStateValue();
+  const [{ patientDetails }, dispatch] = useStateValue();
 
-  // React.useEffect(() => {
-  //   const fetchPatient = async () => {
-  //     try {
-  //       const { data: patientFromApi } = await axios.get<Patient>(
-  //         `${apiBaseUrl}/patients/${id}`
-  //       );
-  //       // dispatch({ type: "SET_PATIENT", payload: patientFromApi });
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   };
-  //   void fetchPatient();
-  // }, [dispatch]);
+  useEffect(() => {
+    void axios.get<void>(`${apiBaseUrl}/ping`);
 
-  // console.log(Object.values(patients));
+    const fetchPatientDetail = async (id: string) => {
+      try {
+        const { data: patientDetail } = await axios.get<Patient>(
+          `${apiBaseUrl}/patients/${id}`
+        );
+        dispatch({ type: "ADD_PATIENT_DETAIL", payload: patientDetail });
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    if (id && !patientDetails[id]) {
+      void fetchPatientDetail(id);
+    }
+  }, [dispatch]);
 
-  // const patient = Object.values(patients)[0];
-
-  const patient = Object.values(patients).find((patient) => patient.id === id);
+  const patient = id ? patientDetails[id] : undefined;
 
   const icon = (patient: Patient) => {
     switch (patient.gender) {
