@@ -13,7 +13,7 @@ import { addPatientDetail, useStateValue } from "../state";
 const PatientDetailPage = () => {
   const { id } = useParams<{ id: string }>();
 
-  const [{ patientDetails }, dispatch] = useStateValue();
+  const [{ patientDetails, diagnoses }, dispatch] = useStateValue();
 
   useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`);
@@ -75,7 +75,9 @@ const PatientDetailPage = () => {
                 {entry.diagnosisCodes && (
                   <ul>
                     {entry.diagnosisCodes.map((code) => (
-                      <li key={code}>{code}</li>
+                      <li key={code}>
+                        {code}: {diagnoses.find((d) => d.code === code)?.name}
+                      </li>
                     ))}
                   </ul>
                 )}

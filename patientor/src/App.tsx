@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { Button, Divider, Container } from "@material-ui/core";
 
 import { apiBaseUrl } from "./constants";
-import { useStateValue, setPatientList } from "./state";
-import { Patient } from "./types";
+import { useStateValue, setPatientList, setDiagnosisList } from "./state";
+import { Patient, Diagnosis } from "./types";
 
 import PatientListPage from "./PatientListPage";
 import PatientDetailPage from "./PatientDetailPage";
@@ -13,20 +13,33 @@ import { Typography } from "@material-ui/core";
 
 const App = () => {
   const [, dispatch] = useStateValue();
+
   React.useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`);
 
     const fetchPatientList = async () => {
       try {
-        const { data: patientListFromApi } = await axios.get<Patient[]>(
+        const { data: patientList } = await axios.get<Patient[]>(
           `${apiBaseUrl}/patients`
         );
-        dispatch(setPatientList(patientListFromApi));
+        dispatch(setPatientList(patientList));
       } catch (e) {
         console.error(e);
       }
     };
     void fetchPatientList();
+
+    const fetchDiagnosisList = async () => {
+      try {
+        const { data: diagnosisList } = await axios.get<Diagnosis[]>(
+          `${apiBaseUrl}/diagnoses`
+        );
+        dispatch(setDiagnosisList(diagnosisList));
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    void fetchDiagnosisList();
   }, [dispatch]);
 
   return (
