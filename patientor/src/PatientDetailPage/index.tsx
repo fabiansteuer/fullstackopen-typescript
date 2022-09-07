@@ -53,7 +53,7 @@ const PatientDetailPage = () => {
   return (
     <div className="App" style={{ marginTop: "2em" }}>
       <Box>
-        <Typography variant="h6">
+        <Typography variant="h3">
           <div
             style={{
               display: "flex",
@@ -66,6 +66,23 @@ const PatientDetailPage = () => {
         </Typography>
         <p>Occupation: {patient.occupation}</p>
         {patient.ssn && <p>SSN: {patient.ssn}</p>}
+        <Typography variant="h4">Entries</Typography>
+        <ul>
+          {patient.entries.map((entry) => {
+            return (
+              <li key={entry.id}>
+                {entry.date}: {entry.description}
+                {entry.diagnosisCodes && (
+                  <ul>
+                    {entry.diagnosisCodes.map((code) => (
+                      <li key={code}>{code}</li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
+        </ul>
       </Box>
     </div>
   );
