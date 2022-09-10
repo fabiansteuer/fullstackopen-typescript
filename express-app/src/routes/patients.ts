@@ -33,4 +33,23 @@ router.post("/", (req, res) => {
   }
 });
 
+router.post("/:id/entries", (req, res) => {
+  try {
+    const newEntry = toNewEntry(req.body);
+    const createdEntry = patientsService.createEntry(newEntry);
+
+    return res.send(createdEntry);
+  } catch (error: unknown) {
+    let errorMessage = "";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    } else {
+      errorMessage = "Unknown error.";
+    }
+
+    return res.status(400).send({ error: errorMessage });
+  }
+});
+
 export default router;

@@ -1,4 +1,4 @@
-import { PatientWithoutId, Gender } from "./types";
+import { PatientWithoutId, Gender, Entry, EntryType } from "./types";
 
 const isString = (text: unknown): text is string => {
   return typeof text === "string" || text instanceof String;
@@ -9,11 +9,12 @@ const isDate = (date: string): boolean => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const isGender = (param: any): param is Gender => {
+const isGender = (gender: any): gender is Gender => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  return Object.values(Gender).includes(param);
+  return Object.values(Gender).includes(gender);
 };
 
+// Patient
 const parseName = (name: unknown): string => {
   if (!name || !isString(name)) {
     throw new Error("Incorrect or missing name");
@@ -49,11 +50,7 @@ const parseOccupation = (occupation: unknown): string => {
   return occupation;
 };
 
-const parseEntries = (): [] => {
-  return [];
-};
-
-type Fields = {
+type patientFields = {
   name: unknown;
   dateOfBirth: unknown;
   ssn: unknown;
@@ -67,7 +64,7 @@ export const toNewPatient = ({
   ssn,
   gender,
   occupation,
-}: Fields): PatientWithoutId => {
+}: patientFields): PatientWithoutId => {
   const newPatient: PatientWithoutId = {
     name: parseName(name),
     dateOfBirth: parseDate(dateOfBirth),
@@ -78,4 +75,64 @@ export const toNewPatient = ({
   };
 
   return newPatient;
+};
+
+// Entry
+const parseEntryDate = (date: unknown): string => {
+  if (!date || !isString(date) || !isDate(date)) {
+    throw new Error("Incorrect or missing date");
+  }
+  return date;
+};
+
+const parseDescription = (description: unknown): string => {
+  if (!description || !isString(description)) {
+    throw new Error("Incorrect or missing description");
+  }
+  return description;
+};
+
+const parseSpecialist = (specialist: unknown): string => {
+  if (!specialist || !isString(specialist)) {
+    throw new Error("Incorrect or missing specialist");
+  }
+  return specialist;
+};
+
+const isEntryType = (type: any): type is EntryType => {
+  return Object.values(EntryType).includes(type);
+};
+
+const parseType = (type: any): EntryType => {
+  if (!type || !isEntryType(type)) {
+    throw new Error("Incorrect or missing type");
+  }
+  return type;
+};
+
+type EntryFields = {
+  date: unknown;
+  description: unknown;
+  specialist: unknown;
+  type: unknown;
+};
+
+export const toNewEntry = ({
+  date,
+  description,
+  specialist,
+  type,
+}: EntryFields): Entry => {
+  const newEntry: Entry = {
+    date: parseEntryDate(date),
+    description: parseDescription(description),
+    specialist: parseSpecialist(specialist),
+    type: parseType(type),
+  };
+
+  return newEntry;
+};
+
+const parseEntries = (): [] => {
+  return [];
 };

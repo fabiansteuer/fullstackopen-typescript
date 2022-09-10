@@ -1,3 +1,7 @@
+import {
+  OccupationalHealthcareEntry,
+  HospitalEntry,
+} from "./../../patientor/src/types";
 export interface Diagnosis {
   code: string;
   name: string;
@@ -26,24 +30,33 @@ export enum HealthCheckRating {
   "CriticalRisk" = 3,
 }
 
+export enum EntryType {
+  HealthCheck = "HealthCheck",
+  OccupationalHealthcare = "OccupationalHealthcare",
+  Hospital = "Hospital",
+}
+
 interface HealthCheckEntry extends BaseEntry {
-  type: "HealthCheck";
+  type: EntryType.HealthCheck;
   healthCheckRating: HealthCheckRating;
 }
 
 interface OccupationalHealthcareEntry extends BaseEntry {
-  type: "OccupationalHealthcare";
+  type: EntryType.OccupationalHealthcare;
   employerName: string;
   sickLeave?: { startDate: string; endDate: string };
 }
 
 interface HospitalEntry extends BaseEntry {
-  type: "Hospital";
+  type: EntryType.Hospital;
   specialist: string;
   discharge: { date: string; criteria: string };
 }
 
-type Entry = HealthCheckEntry | OccupationalHealthcareEntry | HospitalEntry;
+export type Entry =
+  | HealthCheckEntry
+  | OccupationalHealthcareEntry
+  | HospitalEntry;
 
 export interface Patient {
   id: string;
