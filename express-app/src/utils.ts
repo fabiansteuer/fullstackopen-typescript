@@ -1,4 +1,15 @@
-import { PatientWithoutId, Gender, Entry, EntryType } from "./types";
+import { SelectField } from "./../../patientor/src/AddPatientModal/FormField";
+import { HospitalEntry } from "./../../patientor/src/types";
+import {
+  PatientWithoutId,
+  Gender,
+  Entry,
+  EntryWithoutId,
+  EntryType,
+  HealthCheckRating,
+  SickLeave,
+  Discharge,
+} from "./types";
 
 const isString = (text: unknown): text is string => {
   return typeof text === "string" || text instanceof String;
@@ -48,6 +59,10 @@ const parseOccupation = (occupation: unknown): string => {
     throw new Error("Incorrect or missing occupation");
   }
   return occupation;
+};
+
+const parseEntries = (): [] => {
+  return [];
 };
 
 type patientFields = {
@@ -110,11 +125,61 @@ const parseType = (type: any): EntryType => {
   return type;
 };
 
+const parseDischarge = (discharge: any): Discharge => {
+  if (
+    !discharge ||
+    !discharge.date ||
+    !isDate(discharge.date) ||
+    !discharge.criteria ||
+    !isString(discharge.criteria)
+  ) {
+    throw new Error("Incorrect or missing discharge");
+  }
+  return { date: discharge.date, criteria: discharge.criteria };
+};
+
+const parseEmployerName = (employerName: unknown): string => {
+  if (!employerName || !isString(employerName)) {
+    throw new Error("Incorrect or missing employer name");
+  }
+  return employerName;
+};
+
+const parseSickLeave = (sickLeave: any): SickLeave => {
+  if (
+    !sickLeave ||
+    !sickLeave.startDate ||
+    !isDate(sickLeave.startDate) ||
+    !sickLeave.endDate ||
+    !isDate(sickLeave.endDate)
+  ) {
+    throw new Error("Incorrect or missing sick leave");
+  }
+  return { startDate: sickLeave.startDate, endDate: sickLeave.endDate };
+};
+
+const isHealthCheckRating = (
+  healthCheckRating: any
+): healthCheckRating is HealthCheckRating => {
+  return Object.values(HealthCheckRating).includes(healthCheckRating);
+};
+
+const parseHealthCheckRating = (healthCheckRating: any): HealthCheckRating => {
+  if (!healthCheckRating || !isHealthCheckRating(healthCheckRating)) {
+    throw new Error("Incorrect or missing health check rating");
+  }
+  return healthCheckRating;
+};
+
 type EntryFields = {
   date: unknown;
   description: unknown;
   specialist: unknown;
   type: unknown;
+  healthCheckRating: unknown;
+  employerName: unknown;
+  sickLeave: unknown;
+  discharge: unknown;
 };
 
 export const toNewEntry = ({
@@ -122,17 +187,37 @@ export const toNewEntry = ({
   description,
   specialist,
   type,
-}: EntryFields): Entry => {
-  const newEntry: Entry = {
+  discharge,
+  healthCheckRating,
+  employerName,
+  sickLeave,
+}: EntryFields): EntryWithoutId => {
+  const newBaseEntry = {
     date: parseEntryDate(date),
     description: parseDescription(description),
     specialist: parseSpecialist(specialist),
     type: parseType(type),
   };
 
-  return newEntry;
-};
-
-const parseEntries = (): [] => {
-  return [];
+  switch (newBaseEntry.type) {
+    case EntryType.HealthCheck:
+      return {
+        ...newBaseEntry,
+        type: EntryType.HealthCheck,
+        healthCheckRating: parseHealthCheckRating(healthCheckRating),
+      };
+    case EntryType.OccupationalHealthcare:
+      return {
+        ...newBaseEntry,
+        type: EntryType.OccupationalHealthcare,
+        employerName: parseEmployerName(employerName),
+        sickLeave: parseSickLeave(sickLeave),
+      };
+    case EntryType.Hospital:
+      return {
+        ...newBaseEntry,
+        type: EntryType.Hospital,
+        discharge: parseDischarge(discharge),
+      };
+  }
 };
