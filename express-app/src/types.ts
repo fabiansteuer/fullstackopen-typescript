@@ -1,8 +1,3 @@
-import {
-  OccupationalHealthcareEntry,
-  HospitalEntry,
-} from "./../../patientor/src/types";
-
 // Special omit for unions (see https://github.com/microsoft/TypeScript/issues/42680)
 type UnionOmit<T, K extends string | number | symbol> = T extends unknown
   ? Omit<T, K>
@@ -20,7 +15,7 @@ export enum Gender {
   Other = "other",
 }
 
-interface BaseEntry {
+export interface BaseEntry {
   id: string;
   date: string;
   type: string;
@@ -42,7 +37,7 @@ export enum EntryType {
   Hospital = "Hospital",
 }
 
-interface HealthCheckEntry extends BaseEntry {
+export interface HealthCheckEntry extends BaseEntry {
   type: EntryType.HealthCheck;
   healthCheckRating: HealthCheckRating;
 }
@@ -52,7 +47,7 @@ export interface SickLeave {
   endDate: string;
 }
 
-interface OccupationalHealthcareEntry extends BaseEntry {
+export interface OccupationalHealthcareEntry extends BaseEntry {
   type: EntryType.OccupationalHealthcare;
   employerName: string;
   sickLeave?: SickLeave;
@@ -63,7 +58,7 @@ export interface Discharge {
   criteria: string;
 }
 
-interface HospitalEntry extends BaseEntry {
+export interface HospitalEntry extends BaseEntry {
   type: EntryType.Hospital;
   specialist: string;
   discharge: Discharge;

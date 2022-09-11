@@ -1,9 +1,6 @@
-import { SelectField } from "./../../patientor/src/AddPatientModal/FormField";
-import { HospitalEntry } from "./../../patientor/src/types";
 import {
   PatientWithoutId,
   Gender,
-  Entry,
   EntryWithoutId,
   EntryType,
   HealthCheckRating,
