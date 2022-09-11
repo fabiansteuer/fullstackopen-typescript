@@ -3,6 +3,7 @@ import {
   Gender,
   EntryWithoutId,
   EntryType,
+  Diagnosis,
   HealthCheckRating,
   SickLeave,
   Discharge,
@@ -122,6 +123,22 @@ const parseType = (type: any): EntryType => {
   return type;
 };
 
+const isDiagnosisCode = (diagnosisCode: unknown): boolean => {
+  return isString(diagnosisCode);
+};
+
+const parseDiagnosisCodes = (
+  diagnosisCodes: unknown
+): Array<Diagnosis["code"]> => {
+  if (
+    !Array.isArray(diagnosisCodes) ||
+    !diagnosisCodes.every((code: unknown) => isDiagnosisCode(code))
+  ) {
+    throw new Error("Incorrect or missing diagnosis codes");
+  }
+  return diagnosisCodes;
+};
+
 const parseDischarge = (discharge: any): Discharge => {
   if (
     !discharge ||
@@ -173,6 +190,7 @@ type EntryFields = {
   description: unknown;
   specialist: unknown;
   type: unknown;
+  diagnosisCodes: unknown;
   healthCheckRating: unknown;
   employerName: unknown;
   sickLeave: unknown;
@@ -184,6 +202,7 @@ export const toNewEntry = ({
   description,
   specialist,
   type,
+  diagnosisCodes,
   discharge,
   healthCheckRating,
   employerName,
@@ -194,6 +213,7 @@ export const toNewEntry = ({
     description: parseDescription(description),
     specialist: parseSpecialist(specialist),
     type: parseType(type),
+    diagnosisCodes: parseDiagnosisCodes(diagnosisCodes),
   };
 
   switch (newBaseEntry.type) {

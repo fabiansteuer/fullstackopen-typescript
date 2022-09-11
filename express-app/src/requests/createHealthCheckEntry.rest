@@ -6,7 +6,8 @@ Content-Type: application/json
   "date": "2000-01-01",
   "healthCheckRating": "Healthy",
   "specialist": "Dr. Fabian",
-  "description": "All good."
+  "description": "All good.",
+  "diagnosisCodes": ["M24.2", "M51.2"]
 }
 
 
