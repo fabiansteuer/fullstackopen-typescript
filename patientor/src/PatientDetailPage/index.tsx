@@ -9,6 +9,7 @@ import { addPatientDetail, useStateValue } from "../state";
 
 import Entries from "./Entries";
 import PatientOverview from "./PatientOverview";
+import AddEntryForm from "./AddEntryForm";
 
 const PatientDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -46,6 +47,7 @@ const PatientDetailPage = () => {
         <Typography variant="h6">Entries</Typography>
         <Entries entries={patient.entries} />
         <Typography variant="h6">Add Entry</Typography>
+        <AddEntryForm />
       </Box>
     </div>
   );
